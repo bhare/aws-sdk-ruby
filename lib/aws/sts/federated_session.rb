@@ -51,6 +51,19 @@ module AWS
       end
 
     end
+    class AssumedUserSession < Session
+      attr_reader :user_id
+      attr_reader :user_arn
+      attr_reader :packed_policy_size
+      
+      def initialize(opts = {})
+        @user_id = opts[:user_id]
+        @user_arn = opts[:user_arn]
+        @packed_policy_size = opts[:packed_policy_size]
+        super
+      end
+
+    end
 
   end
 end
