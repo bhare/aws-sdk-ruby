@@ -136,6 +136,24 @@ module AWS
         FederatedSession.new(session_opts)
       end
     end
+    
+    def new_assumed_role_session(role_session_name, role_arn, opts = {})
+      opts = opts.merge(:role_arn => role_arn, :role_session_name => role_session_name)
+      case
+      when opts[:policy].kind_of?(String) || !opts[:policy]
+        # leave it alone
+      when opts[:policy].respond_to?(:to_json)
+        opts[:policy] = opts[:policy].to_json
+      end
+      get_session(:assume_role, opts) do |resp, session_opts|
+        session_opts.merge!(
+          :user_id => resp[:assumed_role_user][:assumed_role_id],
+          :user_arn => resp[:assumed_role_user][:arn],
+          :packed_policy_size => resp[:packed_policy_size]
+        )
+        AssumedRoleSession.new(session_opts)
+      end
+    end
 
     protected
 
