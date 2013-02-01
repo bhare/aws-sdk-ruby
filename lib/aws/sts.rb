@@ -43,6 +43,7 @@ module AWS
       autoload :Client,           'client'
       autoload :Errors,           'errors'
       autoload :FederatedSession, 'federated_session'
+      autoload :AssumedUserSession, 'federated_session'
       autoload :Policy,           'policy'
       autoload :Request,          'request'
       autoload :Session,          'session'
